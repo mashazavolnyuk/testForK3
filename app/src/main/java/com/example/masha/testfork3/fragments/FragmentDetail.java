@@ -1,4 +1,6 @@
 package com.example.masha.testfork3.fragments;
 
-public class FragmentDetail {
+import com.arellomobile.mvp.MvpAppCompatFragment;
+
+public class FragmentDetail extends MvpAppCompatFragment {
 }
