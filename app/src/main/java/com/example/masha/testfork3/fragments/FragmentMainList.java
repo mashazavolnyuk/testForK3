@@ -3,6 +3,7 @@ package com.example.masha.testfork3.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,14 +47,27 @@ public class FragmentMainList extends MvpAppCompatFragment implements MainListVi
 
     @Override
     public void loadListUser(List<User> userList) {
-        AdapterListData adapterListData = new AdapterListData( user ->  {
-            if(getActivity() != null && getActivity() instanceof MainActivity) {
+        AdapterListData adapterListData = new AdapterListData(user -> {
+            if (getActivity() != null && getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).goToDetail(user);
             }
         });
         adapterListData.updateData(userList);
         recyclerViewUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewUsers.setAdapter(adapterListData);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(R.string.app_name);
+                actionBar.setDisplayHomeAsUpEnabled(false);
+                actionBar.setHomeButtonEnabled(false);
+            }
+        }
     }
 
     @Override

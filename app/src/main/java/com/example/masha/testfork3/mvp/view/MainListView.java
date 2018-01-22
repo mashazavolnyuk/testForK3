@@ -8,5 +8,4 @@ import java.util.List;
 public interface MainListView extends MvpView {
 
     void loadListUser(List<User> userList);
-
 }

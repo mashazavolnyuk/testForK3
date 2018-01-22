@@ -7,6 +7,7 @@ import com.example.masha.testfork3.mvp.model.MainListModel;
 import com.example.masha.testfork3.mvp.view.MainListView;
 
 import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -20,7 +21,7 @@ public class MainListPresenter extends MvpPresenter<MainListView> {
         loadUsers();
     }
 
-    public void loadUsers() {
+    private void loadUsers() {
         mainListModel.getUsers(new Observer<List<User>>() {
             @Override
             public void onSubscribe(Disposable d) {

@@ -36,8 +36,8 @@ public class AdapterListData extends RecyclerView.Adapter<AdapterListData.Holder
 
     @Override
     public void onBindViewHolder(AdapterListData.HolderAdapter holder, int position) {
-        holder.title.setText( userList.get(position).getTitle());
-        holder.body.setText( userList.get(position).getBody());
+        holder.title.setText(userList.get(position).getTitle());
+        holder.body.setText(userList.get(position).getBody());
         holder.user = userList.get(position);
     }
 
