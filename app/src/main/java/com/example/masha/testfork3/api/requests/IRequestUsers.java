@@ -7,7 +7,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
-public interface IRequestListPlaces {
+public interface IRequestUsers {
     @GET("posts")
     Call<List<User>> getMainList();
 }

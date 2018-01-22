@@ -14,6 +14,7 @@ public class MainActivity extends MvpAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragmentManager = getSupportFragmentManager();
         setContentView(R.layout.activity_main);
         goToListData();
     }
