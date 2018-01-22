@@ -1,9 +1,10 @@
 package com.example.masha.testfork3;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import com.arellomobile.mvp.MvpAppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends MvpAppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
