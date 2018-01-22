@@ -1,16 +1,17 @@
 package com.example.masha.testfork3.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.example.masha.testfork3.MainActivity;
 import com.example.masha.testfork3.R;
 import com.example.masha.testfork3.adapters.AdapterListData;
 import com.example.masha.testfork3.data.User;
@@ -33,10 +34,9 @@ public class FragmentMainList extends MvpAppCompatFragment implements MainListVi
 
     private Unbinder unbinder;
 
-
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main_list, container, false);
@@ -46,27 +46,14 @@ public class FragmentMainList extends MvpAppCompatFragment implements MainListVi
 
     @Override
     public void loadListUser(List<User> userList) {
-        AdapterListData adapterListData = new AdapterListData();
+        AdapterListData adapterListData = new AdapterListData( user ->  {
+            if(getActivity() != null && getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).goToDetail(user);
+            }
+        });
         adapterListData.updateData(userList);
         recyclerViewUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewUsers.setAdapter(adapterListData);
-        recyclerViewUsers.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                
-                return true;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
     }
 
     @Override
@@ -74,6 +61,4 @@ public class FragmentMainList extends MvpAppCompatFragment implements MainListVi
         super.onDestroyView();
         unbinder.unbind();
     }
-
-
 }

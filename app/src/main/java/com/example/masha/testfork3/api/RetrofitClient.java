@@ -1,27 +1,17 @@
 package com.example.masha.testfork3.api;
-
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static String BASE_URL = "https://jsonplaceholder.typicode.com/";
+    private static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
     private static Retrofit retrofit = null;
 
-    private static Retrofit.Builder builder =
-            new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(BASE_URL);
-
     static {
-        builder = new retrofit2.Retrofit.Builder().
+        Retrofit.Builder builder = new Retrofit.Builder().
                 baseUrl(BASE_URL).
                 client(getHttpClient().build())
                 .addConverterFactory(GsonConverterFactory.create());
@@ -32,17 +22,13 @@ public class RetrofitClient {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addNetworkInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                final Request original = chain.request();
-                // adds "Content-Type" header to all server requests
-                final Request request = original.newBuilder().
-                        header("Content-Type", "application/json").
-                        method(original.method(), original.body()).
-                        build();
-                return chain.proceed(request);
-            }
+        httpClient.addNetworkInterceptor(chain -> {
+            final Request original = chain.request();
+            final Request request = original.newBuilder().
+                    header("Content-Type", "application/json").
+                    method(original.method(), original.body()).
+                    build();
+            return chain.proceed(request);
         }).addInterceptor(logging);
         return httpClient;
     }
