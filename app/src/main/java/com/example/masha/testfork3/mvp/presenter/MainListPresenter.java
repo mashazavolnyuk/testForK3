@@ -21,6 +21,10 @@ public class MainListPresenter extends MvpPresenter<MainListView> {
         loadUsers();
     }
 
+    public void loadAgain(){
+        loadUsers();
+    }
+
     private void loadUsers() {
         mainListModel.getUsers(new Observer<List<User>>() {
             @Override

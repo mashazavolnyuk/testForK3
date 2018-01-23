@@ -3,6 +3,7 @@ package com.example.masha.testfork3.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,9 @@ public class FragmentMainList extends MvpAppCompatFragment implements MainListVi
     @BindView(R.id.listUser)
     RecyclerView recyclerViewUsers;
 
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @InjectPresenter
     MainListPresenter mainListPresenter;
 
@@ -42,11 +46,17 @@ public class FragmentMainList extends MvpAppCompatFragment implements MainListVi
 
         View view = inflater.inflate(R.layout.fragment_main_list, container, false);
         unbinder = ButterKnife.bind(this, view);
+        setListeners();
         return view;
+    }
+
+    private void setListeners() {
+        swipeRefreshLayout.setOnRefreshListener(() -> mainListPresenter.loadAgain());
     }
 
     @Override
     public void loadListUser(List<User> userList) {
+        swipeRefreshLayout.setRefreshing(false);
         AdapterListData adapterListData = new AdapterListData(user -> {
             if (getActivity() != null && getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).goToDetail(user);
